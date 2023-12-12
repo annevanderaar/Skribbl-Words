@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Skribbl Word List</title>
+  </head>
+  <body>
+    <h1>Skribbl Word List</h1>
+    <p>Add your words here (one by one):</p>
+    <div class="container">
+      <input id="inputFieldWord" type="text" /><button id="addWordButton">
+        +
+      </button>
+      <br />
+      <p><strong>Your added words:</strong></p>
+      <div class="words" id="wordsContainer"></div>
+      <br />
+      <button id="sendButton">Send words</button>
+    </div>
+    <script src="main.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+  </body>
+</html>
