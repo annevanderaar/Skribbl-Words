@@ -14,21 +14,35 @@ function AddWord() {
 };
 
 function SendEmail() {
-    if (words.length > 0) {
-        Email.send({
-            Host: "smtp.mailslurp.com",
-            Username: "<mailslurp username>",
-            Password: "<mailslurp password>",
-            To: 'annevanderaar@hotmail.com',
-            From: "words@example.com",
-            Subject: "New words for Skribbl",
-            Body: `<html><h2>header</h2><strong>${words}</strong><br></br><em>Italic</em></html>`
-        }).then(message => {
-            alert(message)
-            this.words = [];
-        });
+    const emailBody = `<html><h2>header</h2><strong>${words}</strong><br></br><em>Italic</em></html>`
+
+    var nodemailer = require('nodemailer');
+
+    var transporter = nodemailer.createTransport({
+        service: 'hotmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });
+
+    var mailOptions = {
+        from: 'words@example.com',
+        to: 'annevanderaar@hotmail.com',
+        subject: 'New words for Skribbl',
+        text: emailBody
     };
 
+    if (words.length > 0) {
+        transporter.sendMail(mailOptions, function (error) {
+            if (error) {
+                alert(error)
+                return
+            }
+            alert('Success')
+            this.words = [];
+        });
+    }
 };
 
 addToDoButton.addEventListener('click', function () {
