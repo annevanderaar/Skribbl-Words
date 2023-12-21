@@ -14,20 +14,14 @@ function AddWord() {
 }
 
 function SendEmail() {
-    axios({
-        method: "post",
-        url: "https://everlastingwild.nl/mail.php",
-        data: {
-            content: words,
-        },
-    })
-        .then(() => {
-            alert("Success");
-        })
-        .catch((err) => {
-            alert(err);
-            console.log(err);
-        });
+    axios.post("https://everlastingwild.nl/mail.php", {
+        content: words,
+    }, { headers: { "Content-Type": "application/json" } }).then(() => {
+        alert("Success");
+    }).catch((err) => {
+        alert(err);
+        console.log(err);
+    });
 }
 
 addToDoButton.addEventListener("click", function () {
