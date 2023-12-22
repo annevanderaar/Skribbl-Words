@@ -9,7 +9,12 @@
       +
     </button>
     <p><strong>Your added words:</strong></p>
-    <div>{{ words.toString() }}</div>
+    <div v-for="word in words" v-bind:key="word" class="word">
+      <p>{{ word.word }}</p>
+      <button class="btn" v-on:click="deleteWord(word.id)">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
     <br />
     <button id="sendButton" v-on:click="sendWords">Send words</button>
   </div>
@@ -18,6 +23,7 @@
 <script>
 import axios from "axios";
 import config from "@/config/index.js";
+import _ from "lodash";
 
 export default {
   name: "HelloWorld",
@@ -31,8 +37,17 @@ export default {
 
   methods: {
     addWord(word) {
-      this.words.push(word);
-      this.word = "";
+      if (word) {
+        this.words.push({
+          id: Math.random(),
+          word,
+        });
+        this.word = "";
+      }
+    },
+
+    deleteWord(id) {
+      _.remove(this.words, (word) => word.id === id);
     },
 
     sendWords() {
@@ -85,5 +100,13 @@ body {
   vertical-align: middle;
   font-size: 30px;
   cursor: pointer;
+}
+
+.word {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 </style>
