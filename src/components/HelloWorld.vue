@@ -55,7 +55,7 @@ export default {
         .post(
           `${config.url}/Library/mail.php`,
           {
-            content: this.words,
+            content: _.map(this.words, "word"),
           },
           { headers: { "Content-Type": "application/json" } }
         )
