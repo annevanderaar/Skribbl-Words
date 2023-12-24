@@ -1,3 +1,3 @@
 module.exports = {
-    url: "https://anegy.nl",
+    url: "https://everlastingwild.nl",
 };

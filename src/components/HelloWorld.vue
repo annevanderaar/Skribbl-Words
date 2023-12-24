@@ -51,22 +51,24 @@ export default {
     },
 
     sendWords() {
-      axios
-        .post(
-          `${config.url}/Library/mail.php`,
-          {
-            content: _.map(this.words, "word"),
-          },
-          { headers: { "Content-Type": "application/json" } }
-        )
-        .then(() => {
-          alert("Success");
-          this.words = [];
-        })
-        .catch((err) => {
-          alert(err);
-          console.log(err);
-        });
+      if (this.words.length > 0) {
+        axios
+          .post(
+            `${config.url}/Library/mail.php`,
+            {
+              content: _.map(this.words, "word"),
+            },
+            { headers: { "Content-Type": "application/json" } }
+          )
+          .then(() => {
+            alert("Success");
+            this.words = [];
+          })
+          .catch((err) => {
+            alert(err);
+            console.log(err);
+          });
+      }
     },
   },
 };
