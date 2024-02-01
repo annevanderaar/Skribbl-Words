@@ -1,4 +1,5 @@
 # skribbl-words
+I made this for my brother so his friends can send skribbl words to his email. Feel free to use my method :)
 
 ## Project setup
 ```
