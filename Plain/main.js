@@ -14,7 +14,7 @@ function AddWord() {
 }
 
 function SendEmail() {
-    axios.post("https://everlastingwild.nl/mail.php", {
+    axios.post("https://openthedrip.nl/mail.php", {
         content: words,
     }, { headers: { "Content-Type": "application/json" } }).then(() => {
         alert("Success");

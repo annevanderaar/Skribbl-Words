@@ -1,114 +1,106 @@
 <template>
   <div class="body">
-    <h1>Skribbl Word List</h1>
-    <p>Add your words here (one by one):</p>
-    <input v-model="word" id="inputFieldWord" type="text" /><button
-      v-on:click="addWord(word)"
-      id="addWordButton"
-    >
-      +
-    </button>
-    <p><strong>Your added words:</strong></p>
-    <div v-for="word in words" v-bind:key="word" class="word">
-      <p>{{ word.word }}</p>
-      <button class="btn" v-on:click="deleteWord(word.id)">
-        <i class="fa fa-trash"></i>
-      </button>
+    <h1 class="mb-0 skribbl-title text-display-large">
+      <span>S</span>
+      <span>k</span>
+      <span>r</span>
+      <span>i</span>
+      <span>b</span>
+      <span>b</span>
+      <span>l</span>
+    </h1>
+
+    <h2 class="text-white mt-0">
+      Word List
+    </h2>
+
+    <p class="text-white">
+      Add your words here (one by one):
+    </p>
+
+    <div class="">
+      <input v-model="word" id="inputFieldWord" type="text" />
+
+      <v-btn
+        @click="addWord"
+        color="green"
+        rounded="0"
+        elevation="0"
+        height="50"
+      >
+        Add
+      </v-btn>
     </div>
-    <br />
-    <button id="sendButton" v-on:click="sendWords">Send words</button>
+
+    <p class="font-weight-bold text-white">
+      Your added words:
+    </p>
+
+    <v-chip
+      v-for="word in words"
+      :key="word.id"
+      class="ma-1 cursor-pointer"
+      color="white"
+      variant="flat"
+      @click="deleteWord(word.id)"
+    >
+      {{ word.word }}
+
+      <span class="ms-2">x</span>
+    </v-chip>
+
+    <v-btn
+      @click="sendWords"
+      color="light-blue"
+      class="font-weight-bold mt-4"
+    >
+      Send words
+    </v-btn>
   </div>
 </template>
 
-<script>
-import axios from "axios";
-import config from "@/config/index.js";
+<script setup>
+import { ref } from "vue";
 import _ from "lodash";
+import axios from "axios";
 
-export default {
-  name: "HelloWorld",
+const words = ref([])
+const word = ref('')
 
-  data() {
-    return {
-      words: [],
-      word: "",
-    };
-  },
+const url = "https://openthedrip.nl"
 
-  methods: {
-    addWord(word) {
-      if (word) {
-        this.words.push({
-          id: Math.random(),
-          word,
-        });
-        this.word = "";
-      }
-    },
+function addWord() {
+  if (word.value) {
+    words.value.push({
+      id: Math.random(),
+      word: word.value,
+    });
+    word.value = "";
+  }
+}
 
-    deleteWord(id) {
-      _.remove(this.words, (word) => word.id === id);
-    },
+function deleteWord(id) {
+  _.remove(words.value, (word) => word.id === id);
+}
 
-    sendWords() {
-      if (this.words.length > 0) {
-        axios
-          .post(
-            `${config.url}/Library/mail.php`,
-            {
-              content: _.map(this.words, "word"),
-            },
-            { headers: { "Content-Type": "application/json" } }
-          )
-          .then(() => {
-            alert("Success");
-            this.words = [];
-          })
-          .catch((err) => {
-            alert(err);
-            console.log(err);
-          });
-      }
-    },
-  },
-};
+function sendWords () {
+  if (words.value.length > 0) {
+    axios
+      .post(
+        `${url}/Library/mail.php`,
+        {
+          content: _.map(words.value, "word"),
+        },
+        {headers: {"Content-Type": "application/json"}}
+      )
+      .then(() => {
+        alert("Success");
+        words.value = [];
+      })
+      .catch((err) => {
+        alert(err);
+        console.log(err);
+      });
+  }
+}
 </script>
-
-<style scoped>
-body {
-  width: 50%;
-  margin: 0 auto;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.container {
-  width: 360px;
-}
-
-#inputFieldWord {
-  width: 300px;
-  height: 46px;
-  border-width: 0;
-  border: 1px solid black;
-  outline: none;
-  font-size: 25px;
-  vertical-align: middle;
-}
-
-#addWordButton {
-  height: 50px;
-  width: 50px;
-  border: 1px solid black;
-  vertical-align: middle;
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.word {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-}
-</style>
