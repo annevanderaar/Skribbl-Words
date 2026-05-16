@@ -18,7 +18,7 @@
       Add your words here (one by one):
     </p>
 
-    <div class="">
+    <div class="d-flex flex-nowrap align-center">
       <input v-model="word" id="inputFieldWord" type="text" />
 
       <v-btn

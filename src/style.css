@@ -10,11 +10,12 @@
 }
 
 #inputFieldWord {
-    width: 300px;
+    max-width: 300px;
     height: 53px;
     outline: none;
     font-size: 25px;
     vertical-align: middle;
+    width: 100%;
 }
 
 .word {
